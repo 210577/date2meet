@@ -23,7 +23,9 @@ export async function GET(_: Request, { params }: { params: { slug: string } }) 
     for (const ymd of allDates) map[ymd] = { count: 0, users: [] };
 
     for (const r of event.responses) {
-        const picked = new Set(r.selections.map((s) => ymdFromDateKST(s.date)));
+        const picked = new Set(
+            r.selections.map((s: { date: Date }) => ymdFromDateKST(s.date))
+        );
         for (const ymd of picked) {
             if (!map[ymd]) continue; // ignore out-of-range
             map[ymd].count += 1;
